@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Projects & Details</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Doc.css">
+</head>
+<body>
+    <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0c10;
+      --surface-dark: #111318;
+      --card-bg: #171a21;
+      --border-dim: #2a2e3a;
+      --accent-primary: #c084fc;
+      --accent-glow: #a855f7;
+      --text-light: #edf2f8;
+      --text-muted: #9ca3af;
+      --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+    }
+
+    /* Password Gate Overlay */
+    .password-gate {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(10, 12, 16, 0.98);
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .gate-card {
+      background: var(--surface-dark);
+      border: 1px solid var(--border-dim);
+      border-radius: 2rem;
+      padding: 2rem;
+      max-width: 450px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+      animation: slideUp 0.4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gate-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #fff, var(--accent-primary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .gate-card p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group {
+      margin-bottom: 1rem;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-dim);
+      border-radius: 1rem;
+      color: var(--text-light);
+      font-family: inherit;
+      font-size: 0.9rem;
+      transition: all 0.2s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 2px rgba(192, 132, 252, 0.2);
+    }
+
+    .btn-gate {
+      background: var(--accent-primary);
+      border: none;
+      width: 100%;
+      padding: 0.8rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: all 0.2s;
+      color: #0a0c10;
+    }
+
+    .btn-gate:hover {
+      background: var(--accent-glow);
+      transform: scale(1.02);
+    }
+
+    .btn-secondary {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dim);
+      color: var(--text-light);
+    }
+
+    .btn-secondary:hover {
+      background: var(--border-dim);
+    }
+
+    .error-msg {
+      color: #f87171;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+      min-height: 1.5rem;
+    }
+
+    .success-msg {
+      color: #4ade80;
+      font-size: 0.8rem;
+    }
+
+    /* One-Time Password Display */
+    .otp-section {
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-dim);
+    }
+
+    .generated-password {
+      background: var(--bg-dark);
+      border: 1px dashed var(--accent-primary);
+      border-radius: 1rem;
+      padding: 0.8rem;
+      margin: 1rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .password-value {
+      font-family: monospace;
+      font-size: 1.3rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: var(--accent-primary);
+      word-break: break-all;
+    }
+
+    .copy-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dim);
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+      color: var(--text-light);
+    }
+
+    .copy-btn:hover {
+      background: var(--accent-primary);
+      color: #0a0c10;
+    }
+
+    .note {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* Loading spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 0.6s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Main Portfolio Content */
+    .portfolio-content {
+      display: none;
+    }
+
+    .portfolio-content.visible {
+      display: block;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Portfolio Styles */
+    .page-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2rem 2rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-dim);
+    }
+
+    .nav-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav-brand span {
+      font-weight: 400;
+      background: none;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--accent-primary);
+      border-bottom: 2px solid var(--accent-primary);
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .hero-content {
+      flex: 1.2;
+      min-width: 250px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(192, 132, 252, 0.12);
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      color: var(--accent-primary);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .accent {
+      color: var(--accent-primary);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .project-card {
+      background: var(--surface-dark);
+      border-radius: 1.5rem;
+      border: 1px solid var(--border-dim);
+      padding: 1.5rem;
+      transition: 0.25s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-primary);
+    }
+
+    .project-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .tech-tag {
+      display: inline-block;
+      background: #232733;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+      margin-right: 0.3rem;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 768px) {
+      .page-container { padding: 1rem; }
+      h1 { font-size: 2rem; }
+      .hero { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD GATE (requests email & contact, sends to admin, then generates one-time password) -->
+<div id="passwordGate" class="password-gate">
+  <div class="gate-card" id="gateCard">
+    <h2>🔐 Private Projects</h2>
+    <p>Enter your email and contact to receive a one-time access password</p>
+    
+    <!-- Step 1: Request Info -->
+    <div id="stepRequestArea">
+      <div class="input-group">
+        <label>📧 Email Address</label>
+        <input type="email" id="visitorEmail" placeholder="you@example.com" autocomplete="off">
+      </div>
+      
+      <div class="input-group">
+        <label>📞 Phone / Contact (optional)</label>
+        <input type="text" id="visitorContact" placeholder="WhatsApp / Telegram / Phone">
+      </div>
+      
+      <button id="requestOtpBtn" class="btn-gate">✨ Generate One-Time Password</button>
+      <div id="gateError" class="error-msg"></div>
+    </div>
+    
+    <!-- Step 2: OTP Display Area (hidden initially) -->
+    <div id="otpDisplayArea" style="display: none;">
+      <div class="otp-section">
+        <p style="font-size: 0.85rem; color: var(--accent-primary);">✅ Your one-time password is ready!</p>
+        <div class="generated-password">
+          <span class="password-value" id="generatedOtpValue">XXXXXX</span>
+          <button id="copyOtpBtn" class="copy-btn">📋 Copy</button>
+        </div>
+        <p class="note">⚠️ This password works only once. Copy it now, then use it to unlock the projects page.</p>
+        <button id="proceedToLoginBtn" class="btn-gate btn-secondary" style="margin-top: 0.5rem;">→ I've copied it, continue to login</button>
+        <button id="backToRequestBtn" class="copy-btn" style="margin-top: 0.5rem; width: 100%;">← Back</button>
+      </div>
+    </div>
+    
+    <!-- Step 3: Login with OTP (hidden initially) -->
+    <div id="loginSection" style="display: none;">
+      <div class="otp-section">
+        <p style="margin-bottom: 0.8rem;">🔑 Enter the one-time password to access projects:</p>
+        <input type="password" id="otpInput" class="input-group" style="width: 100%; margin-bottom: 0.8rem; background: var(--bg-dark);" placeholder="Paste one-time password">
+        <button id="verifyOtpBtn" class="btn-gate">Unlock Projects →</button>
+        <div id="loginError" class="error-msg"></div>
+        <button id="backToOtpBtn" class="copy-btn" style="margin-top: 0.5rem; width: 100%;">← Back to password</button>
+        <p class="note">💡 One-time password expires after successful use.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <div class="page-container">
+    <nav class="main-nav">
+      <div class="nav-brand">Glitch<span>folio</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">intro</a></li>
+        <li><a href="Doc2.html" class="active">projects & details</a></li>
+        <li><a href="Doc3.html">contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="projects-header">
+        <div class="section-sub">✦ featured works</div>
+        <h1>Designs that <span class="accent">function</span> & stories that <span class="accent">stay</span></h1>
+        <p class="hero-description" style="max-width: 700px;">Every project blends bold aesthetics with robust engineering. Here are some highlights from my portfolio.</p>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-icon">🌿</div>
+          <h3>Bloomscape</h3>
+          <div class="project-tech">
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">GSAP</span>
+            <span class="tech-tag">Node.js</span>
+          </div>
+          <p class="project-desc">Interactive plant-care dashboard with immersive 3D visualizations and real-time environmental tips. Reduced bounce rate by 34%.</p>
+          <a href="Doc2,3.html" class="card-link">case study →</a>
+        </div>
+        <div class="project-card">
+          <div class="project-icon">⚡</div>
+          <h3>Analytics</h3>
+          <div class="project-tech">
+            <span class="tech-tag">Vue</span>
+            <span class="tech-tag">D3</span>
+            <span class="tech-tag">Python</span>
+          </div>
+          <p class="project-desc">Data dashboard for startups — custom widgets, real-time metrics & responsive design. Loved by 200+ active users.</p>
+          <a href="Doc2,1.html" class="card-link">DEMO→</a>
+        </div>
+        <div class="project-card">
+          <div class="project-icon">🎨</div>
+          <h3>Chromatic UI</h3>
+          <div class="project-tech">
+            <span class="tech-tag">Figma</span>
+            <span class="tech-tag">Tailwind</span>
+            <span class="tech-tag">Storybook</span>
+          </div>
+          <p class="project-desc">Design system and component library that powers 5+ client products, maintaining consistency and accessibility.</p>
+          <a href="Bot.html" class="card-link">explore with my Bot →</a>
+        </div>
+      </div>
+
+      <!-- extra details section -->
+      <div class="details-section">
+        <div class="section-sub">⚙️ behind the scenes</div>
+        <div class="details-flex">
+          <div class="detail-card">
+            <h4>My process</h4>
+            <ul>
+              <li>Discovery & user research</li>
+              <li>Wireframing & interactive prototyping</li>
+              <li>Component-driven development</li>
+              <li>Testing & performance tuning</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h4>Tech stack I master</h4>
+            <ul>
+              <li>React, Next.js, Vue 3</li>
+              <li>Tailwind, Framer Motion</li>
+              <li>Node, Express, Firebase</li>
+              <li>Figma, Adobe XD, Webflow</li>
+            </ul>
+          </div>
+          <div class="detail-card">
+            <h4>What drives me</h4>
+            <ul>
+              <li>Accessibility by design</li>
+              <li>Intuitive micro-interactions</li>
+              <li>Clean, maintainable code</li>
+              <li>Continuous curiosity ✨</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>✧ crafted with attention & care — explore more ✧</p>
+    </footer>
+  </div>
+<script>
+  // ============================================================
+  // ONE-TIME PASSWORD SYSTEM WITH ADMIN EMAIL NOTIFICATION
+  // ============================================================
+  
+  // ========== CONFIGURATION ==========
+  // 👇 IMPORTANT: Replace this with your email address to receive visitor data
+  // This is where the visitor's email, contact, and OTP will be sent
+  const ADMIN_EMAIL = "squid100ward@gmail.com";  // <-- REPLACE WITH YOUR EMAIL
+  
+  // Note: This uses EmailJS service for sending emails without a backend
+  // You need to sign up at https://www.emailjs.com/ (free tier available)
+  // OR you can use the built-in mailto fallback (opens default email client)
+  
+  // For a fully working solution without backend, we'll use mailto: as fallback
+  // and also provide a console log for testing. For production, set up EmailJS.
+  
+  // State management
+  let generatedOtp = null;
+  let otpUsed = false;
+  let visitorInfo = { email: '', contact: '' };
+  
+  // DOM elements - Gate sections
+  const stepRequestArea = document.getElementById('stepRequestArea');
+  const otpDisplayArea = document.getElementById('otpDisplayArea');
+  const loginSection = document.getElementById('loginSection');
+  
+  // Input elements
+  const emailInput = document.getElementById('visitorEmail');
+  const contactInput = document.getElementById('visitorContact');
+  const requestBtn = document.getElementById('requestOtpBtn');
+  const gateError = document.getElementById('gateError');
+  const generatedOtpSpan = document.getElementById('generatedOtpValue');
+  const copyOtpBtn = document.getElementById('copyOtpBtn');
+  const proceedToLoginBtn = document.getElementById('proceedToLoginBtn');
+  const backToRequestBtn = document.getElementById('backToRequestBtn');
+  const backToOtpBtn = document.getElementById('backToOtpBtn');
+  const otpInput = document.getElementById('otpInput');
+  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+  const loginError = document.getElementById('loginError');
+  
+  // Portfolio elements
+  const portfolioWrapper = document.getElementById('portfolioContent');
+  const gateDiv = document.getElementById('passwordGate');
+  const introPage = document.getElementById('introPage');
+  const projectsPage = document.getElementById('projectsPage');
+  const contactPage = document.getElementById('contactPage');
+  const navIntro = document.getElementById('navIntro');
+  const navProjects = document.getElementById('navProjects');
+  const navContact = document.getElementById('navContact');
+  
+  // Helper: Generate random 8-character alphanumeric OTP
+  function generateRandomOTP() {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+    let otp = '';
+    for (let i = 0; i < 8; i++) {
+      otp += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return otp;
+  }
+  
+  // Validate email format
+  function isValidEmail(email) {
+    return /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/.test(email);
+  }
+  
+  // Send notification to admin via mailto (opens email client)
+  // This is the simplest method that works without any external service
+  function sendAdminNotificationViaMailto(visitorEmail, visitorContact, otp) {
+    const subject = encodeURIComponent(`🔐 Portfolio Access Request - ${visitorEmail}`);
+    const body = encodeURIComponent(
+      `New visitor requested access to the protected portfolio projects.\n\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n` +
+      `📧 Visitor Email: ${visitorEmail}\n` +
+      `📞 Contact/Phone: ${visitorContact || 'Not provided'}\n` +
+      `🔑 Generated OTP: ${otp}\n` +
+      `⏱️ Request Time: ${new Date().toLocaleString()}\n` +
+      `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n` +
+      `The visitor will use this OTP to access the projects page.\n` +
+      `This is a one-time password and will expire after use.`
+    );
+    
+    // Create mailto link
+    const mailtoLink = `mailto:${ADMIN_EMAIL}?subject=${subject}&body=${body}`;
+    
+    // Open default email client
+    window.open(mailtoLink, '_blank');
+    
+    // Also log to console for testing/debugging
+    console.log('📧 Admin notification prepared (mailto):');
+    console.log('   To:', ADMIN_EMAIL);
+    console.log('   Visitor:', visitorEmail);
+    console.log('   OTP:', otp);
+    
+    return true;
+  }
+  
+  // Alternative: Copy to clipboard as fallback if email client fails
+  function copyToClipboardForAdmin(visitorEmail, visitorContact, otp) {
+    const message = 
+`📧 VISITOR ACCESS REQUEST
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Visitor Email: ${visitorEmail}
+Contact: ${visitorContact || 'Not provided'}
+One-Time Password: ${otp}
+Time: ${new Date().toLocaleString()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+The visitor will use this OTP to access the projects page.`;
+    
+    navigator.clipboard.writeText(message).then(() => {
+      alert('✅ Visitor information copied to clipboard! You can paste it anywhere (email, notes, etc.)\n\n' + message);
+    }).catch(() => {
+      console.log('Visitor data:', message);
+    });
+  }
+  
+  // Send notification to admin (combined approach)
+  async function notifyAdmin(visitorEmail, visitorContact, otp) {
+    // Always log to console for development
+    console.log('📨 SENDING ADMIN NOTIFICATION');
+    console.log('   Admin Email:', ADMIN_EMAIL);
+    console.log('   Visitor:', visitorEmail);
+    console.log('   Contact:', visitorContact);
+    console.log('   OTP:', otp);
+    
+    // Method 1: Try mailto (opens email client)
+    sendAdminNotificationViaMailto(visitorEmail, visitorContact, otp);
+    
+    // Method 2: Also copy to clipboard as backup
+    setTimeout(() => {
+      if (confirm(`Visitor data sent to admin email.\n\nWould you like to copy the visitor information to clipboard as backup?`)) {
+        copyToClipboardForAdmin(visitorEmail, visitorContact, otp);
+      }
+    }, 500);
+    
+    return true;
+  }
+  
+  // Reset to step 1 (request area)
+  function resetToRequest() {
+    stepRequestArea.style.display = 'block';
+    otpDisplayArea.style.display = 'none';
+    loginSection.style.display = 'none';
+    gateError.innerText = '';
+    loginError.innerText = '';
+    emailInput.value = '';
+    contactInput.value = '';
+    generatedOtp = null;
+    otpUsed = false;
+  }
+  
+  // Show OTP display area
+  function showOtpDisplay(otpValue) {
+    stepRequestArea.style.display = 'none';
+    otpDisplayArea.style.display = 'block';
+    loginSection.style.display = 'none';
+    generatedOtpSpan.innerText = otpValue;
+    gateError.innerText = '';
+  }
+  
+  // Show login area
+  function showLoginArea() {
+    stepRequestArea.style.display = 'none';
+    otpDisplayArea.style.display = 'none';
+    loginSection.style.display = 'block';
+    otpInput.value = '';
+    loginError.innerText = '';
+    otpInput.focus();
+  }
+  
+  // Generate OTP after email validation and send to admin
+  requestBtn.addEventListener('click', async () => {
+    const email = emailInput.value.trim();
+    const contact = contactInput.value.trim();
+    
+    if (!email) {
+      gateError.innerText = '❌ Please enter your email address.';
+      return;
+    }
+    if (!isValidEmail(email)) {
+      gateError.innerText = '❌ Please enter a valid email (e.g., name@example.com).';
+      return;
+    }
+    
+    // Show loading state
+    const originalBtnText = requestBtn.innerHTML;
+    requestBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+    requestBtn.disabled = true;
+    
+    // Store visitor data
+    visitorInfo = { email, contact };
+    
+    // Generate new one-time password
+    const newOtp = generateRandomOTP();
+    generatedOtp = newOtp;
+    otpUsed = false;
+    
+    // Send notification to admin with visitor data
+    try {
+      await notifyAdmin(email, contact, newOtp);
+      
+      // Log successful notification
+      console.log('✅ Admin notified about visitor:', email);
+      
+      // Show success and display OTP
+      showOtpDisplay(newOtp);
+      
+    } catch (error) {
+      console.error('Error sending notification:', error);
+      gateError.innerText = '⚠️ Notification sent but there was an issue. Password generated anyway.';
+      showOtpDisplay(newOtp);
+    } finally {
+      requestBtn.innerHTML = originalBtnText;
+      requestBtn.disabled = false;
+    }
+  });
+  
+  // Copy OTP to clipboard
+  copyOtpBtn.addEventListener('click', async () => {
+    const otpText = generatedOtpSpan.innerText;
+    try {
+      await navigator.clipboard.writeText(otpText);
+      const originalText = copyOtpBtn.innerText;
+      copyOtpBtn.innerText = '✓ Copied!';
+      setTimeout(() => {
+        copyOtpBtn.innerText = originalText;
+      }, 1500);
+    } catch (err) {
+      alert('Copy manually: ' + otpText);
+    }
+  });
+  
+  // Proceed to login step
+  proceedToLoginBtn.addEventListener('click', () => {
+    showLoginArea();
+  });
+  
+  // Back to request area from OTP display
+  backToRequestBtn.addEventListener('click', () => {
+    resetToRequest();
+  });
+  
+  // Back to OTP display from login
+  backToOtpBtn.addEventListener('click', () => {
+    if (generatedOtp) {
+      stepRequestArea.style.display = 'none';
+      otpDisplayArea.style.display = 'block';
+      loginSection.style.display = 'none';
+    } else {
+      resetToRequest();
+    }
+  });
+  
+  // Verify OTP and unlock portfolio
+  function verifyAndUnlock() {
+    const enteredOtp = otpInput.value.trim();
+    
+    if (!generatedOtp) {
+      loginError.innerText = '❌ No OTP generated. Please request a new password.';
+      return;
+    }
+    
+    if (otpUsed) {
+      loginError.innerText = '❌ This one-time password has already been used. Please request a new one.';
+      return;
+    }
+    
+    if (enteredOtp !== generatedOtp) {
+      loginError.innerText = '❌ Incorrect one-time password. Please check and try again.';
+      return;
+    }
+    
+    // CORRECT OTP - Access granted
+    otpUsed = true;
+    
+    // Log successful access
+    console.log('✅ ACCESS GRANTED - Visitor:', visitorInfo.email);
+    console.log('🔓 Used OTP:', generatedOtp);
+    console.log('📅 Access time:', new Date().toISOString());
+    
+    // Hide gate, show portfolio
+    gateDiv.style.display = 'none';
+    portfolioWrapper.classList.add('visible');
+    
+    // Show intro page by default
+    showPortfolioPage('intro');
+  }
+  
+  verifyOtpBtn.addEventListener('click', verifyAndUnlock);
+  otpInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') verifyAndUnlock();
+  });
+  
+  // Portfolio navigation
+  function showPortfolioPage(page) {
+    introPage.style.display = 'none';
+    projectsPage.style.display = 'none';
+    contactPage.style.display = 'none';
+    
+    navIntro.classList.remove('active');
+    navProjects.classList.remove('active');
+    navContact.classList.remove('active');
+    
+    if (page === 'intro') {
+      introPage.style.display = 'block';
+      navIntro.classList.add('active');
+    } else if (page === 'projects') {
+      projectsPage.style.display = 'block';
+      navProjects.classList.add('active');
+    } else if (page === 'contact') {
+      contactPage.style.display = 'block';
+      navContact.classList.add('active');
+    }
+  }
+  
+  navIntro.addEventListener('click', (e) => {
+    e.preventDefault();
+    showPortfolioPage('intro');
+  });
+  
+  navProjects.addEventListener('click', (e) => {
+    e.preventDefault();
+    showPortfolioPage('projects');
+  });
+  
+  navContact.addEventListener('click', (e) => {
+    e.preventDefault();
+    showPortfolioPage('contact');
+  });
+  
+  // Check if admin email is configured
+  if (ADMIN_EMAIL === "squid100ward@gmail.com") {
+    console.warn('⚠️ Please update ADMIN_EMAIL with your actual email address to receive visitor notifications.');
+    console.warn('   Find the CONFIGURATION section in the script and replace "admin@yourdomain.com" with your email.');
+  }
+  
+  // Initialize: ensure portfolio is hidden, gate is visible
+  portfolioWrapper.classList.remove('visible');
+  console.log('✅ One-time password system ready. Visitor data will be sent to admin email.');
+</script>
+
+</body>
+</html>

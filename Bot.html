@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Portfolio | AI Chatbot</title>
+  <!-- Google Fonts & smooth base -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    /* Global Reset & Variables */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-dark: #0a0c10;
+      --surface-dark: #111318;
+      --card-bg: #171a21;
+      --border-dim: #2a2e3a;
+      --accent-primary: #c084fc;
+      --accent-glow: #a855f7;
+      --text-light: #edf2f8;
+      --text-muted: #9ca3af;
+      --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-light);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page-container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 2rem 2rem 1.5rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navigation */
+    .main-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-dim);
+    }
+
+    .nav-brand {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav-brand span {
+      font-weight: 400;
+      background: none;
+      background-clip: unset;
+      -webkit-background-clip: unset;
+      color: var(--text-muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.25s ease;
+      font-size: 1rem;
+      padding: 0.4rem 0;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--accent-primary);
+      border-bottom: 2px solid var(--accent-primary);
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    .hero-content {
+      flex: 1.2;
+      min-width: 280px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(192, 132, 252, 0.12);
+      padding: 0.3rem 0.9rem;
+      border-radius: 40px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+
+    .accent {
+      color: var(--accent-primary);
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      max-width: 550px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      border-radius: 40px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+    }
+
+    .primary-btn {
+      background: var(--accent-primary);
+      color: #0a0c10;
+      box-shadow: 0 4px 12px rgba(192, 132, 252, 0.2);
+    }
+
+    .primary-btn:hover {
+      background: var(--accent-glow);
+      transform: translateY(-3px);
+    }
+
+    .outline-btn {
+      border: 1.5px solid var(--border-dim);
+      background: transparent;
+      color: var(--text-light);
+    }
+
+    .outline-btn:hover {
+      border-color: var(--accent-primary);
+      background: rgba(192, 132, 252, 0.08);
+    }
+
+    .hero-visual {
+      flex: 0.9;
+      position: relative;
+      min-height: 320px;
+    }
+
+    .floating-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-dim);
+      border-radius: 24px;
+      padding: 0.8rem 1.4rem;
+      position: absolute;
+      font-weight: 500;
+      background: #1e212b;
+      animation: floatAnim 4s ease-in-out infinite;
+    }
+
+    .card-1 { top: 10%; left: 5%; animation-delay: 0s; }
+    .card-2 { bottom: 20%; right: 5%; animation-delay: 0.5s; }
+    .card-3 { top: 45%; right: 20%; animation-delay: 0.9s; }
+
+    @keyframes floatAnim {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .quick-glance {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1.5rem;
+      background: var(--surface-dark);
+      border-radius: 2rem;
+      padding: 2rem;
+      border: 1px solid var(--border-dim);
+    }
+
+    .glance-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      flex: 1;
+    }
+
+    .glance-number {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--accent-primary));
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    footer {
+      margin-top: 4rem;
+      text-align: center;
+      padding-top: 1.8rem;
+      border-top: 1px solid var(--border-dim);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* ========== CHATBOT WIDGET STYLES ========== */
+    .chatbot-widget {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 1000;
+      font-family: var(--font-sans);
+    }
+
+    .chat-toggle {
+      width: 60px;
+      height: 60px;
+      border-radius: 30px;
+      background: linear-gradient(135deg, #c084fc, #a855f7);
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(168, 85, 247, 0.4);
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: white;
+    }
+
+    .chat-toggle:hover {
+      transform: scale(1.08);
+    }
+
+    .chat-container {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 380px;
+      height: 520px;
+      background: var(--surface-dark);
+      border-radius: 24px;
+      border: 1px solid var(--border-dim);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      transform-origin: bottom right;
+    }
+
+    .chat-container.hidden {
+      transform: scale(0);
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, #1e212b, #171a21);
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-dim);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .chat-header h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-light);
+    }
+
+    .chat-header h3 span {
+      background: rgba(192, 132, 252, 0.2);
+      padding: 4px 8px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: var(--accent-primary);
+    }
+
+    .close-chat {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      display: flex;
+      gap: 10px;
+      max-width: 85%;
+      animation: fadeInUp 0.3s ease;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+
+    .message-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 16px;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+
+    .message.user .message-avatar {
+      background: var(--accent-primary);
+      color: #0a0c10;
+    }
+
+    .message-bubble {
+      background: var(--card-bg);
+      padding: 10px 14px;
+      border-radius: 18px;
+      font-size: 0.85rem;
+      line-height: 1.4;
+      color: var(--text-light);
+      border: 1px solid var(--border-dim);
+    }
+
+    .message.user .message-bubble {
+      background: var(--accent-primary);
+      color: #0a0c10;
+      border: none;
+    }
+
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 10px 14px;
+      background: var(--card-bg);
+      border-radius: 18px;
+      width: fit-content;
+    }
+
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      background: var(--text-muted);
+      border-radius: 3px;
+      animation: typing 1.4s infinite;
+    }
+
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-6px); opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .chat-input-area {
+      padding: 16px;
+      border-top: 1px solid var(--border-dim);
+      display: flex;
+      gap: 10px;
+      background: var(--surface-dark);
+    }
+
+    .chat-input-area input {
+      flex: 1;
+      background: var(--bg-dark);
+      border: 1px solid var(--border-dim);
+      padding: 10px 14px;
+      border-radius: 30px;
+      color: var(--text-light);
+      font-family: inherit;
+      font-size: 0.85rem;
+    }
+
+    .chat-input-area input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+    }
+
+    .chat-input-area button {
+      background: var(--accent-primary);
+      border: none;
+      width: 38px;
+      height: 38px;
+      border-radius: 19px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.2s;
+    }
+
+    .chat-input-area button:hover {
+      background: var(--accent-glow);
+    }
+
+    @media (max-width: 480px) {
+      .chat-container { width: 340px; height: 480px; right: 0; }
+      h1 { font-size: 2.3rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-container">
+    <nav class="main-nav">
+      <div class="nav-brand">Glitch<span>folio</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">intro</a></li>
+        <li><a href="Doc2.html" >projects & details</a></li>
+        <li><a href="Doc3.html">contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <div class="badge">✨ FULLY FUNCTIONAL AI ✨</div>
+          <h1>Meet your <span class="accent">intelligent assistant</span><br>powered by Gemini AI</h1>
+          <p class="hero-description">This chatbot uses Google's Gemini 1.5 Flash model — it knows everything about this portfolio, can answer questions about Glitch, projects, skills, and have natural conversations with memory.</p>
+          <div class="hero-cta">
+            <button id="openChatHero" class="btn primary-btn">💬 chat with AI →</button>
+            <button id="testApiBtn" class="btn outline-btn">🔌 test connection</button>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="floating-card card-1">🧠 Gemini AI</div>
+          <div class="floating-card card-2">⚡ real-time replies</div>
+          <div class="floating-card card-3">💬 conversation memory</div>
+        </div>
+      </section>
+
+      <section class="quick-glance">
+        <div class="glance-item"><span class="glance-number">🤖</span><span class="glance-label">Gemini 1.5 Flash</span></div>
+        <div class="glance-item"><span class="glance-number">📚</span><span class="glance-label">portfolio context</span></div>
+        <div class="glance-item"><span class="glance-number">💾</span><span class="glance-label">chat memory</span></div>
+      </section>
+    </main>
+    <footer><p>✧ AI-powered portfolio — built with Gemini API ✧</p></footer>
+  </div>
+
+  <!-- CHATBOT WIDGET -->
+  <div class="chatbot-widget">
+    <button class="chat-toggle" id="chatToggleBtn">💬</button>
+    <div class="chat-container hidden" id="chatContainer">
+      <div class="chat-header">
+        <h3>🤖 Glitch AI <span>Gemini</span></h3>
+        <button class="close-chat" id="closeChatBtn">✕</button>
+      </div>
+      <div class="chat-messages" id="chatMessages">
+        <div class="message bot">
+          <div class="message-avatar">🤖</div>
+          <div class="message-bubble">Hi! I'm an AI assistant powered by Google Gemini. Ask me anything about Glitch's portfolio, projects, skills, or just have a chat! ✨</div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Ask me anything..." autocomplete="off">
+        <button id="sendMessageBtn">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // FULLY FUNCTIONAL AI CHATBOT WITH GOOGLE GEMINI API
+    // ============================================================
+    
+    // ---------- CONFIGURATION ----------
+    // IMPORTANT: Replace this with your actual Gemini API key
+    // Get your free API key from: https://aistudio.google.com/app/apikey
+    const GEMINI_API_KEY = "AIzaSyAgcYeXVb5I-XQAvKd2sQsNoWpNw3nnaGY";  // <-- PASTE YOUR API KEY HERE
+    
+    const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+    
+    // Portfolio context system prompt - gives Gemini all the knowledge about the portfolio
+    const SYSTEM_PROMPT = `You are Glitch AI, a helpful, friendly, and knowledgeable assistant for Glitch's portfolio website. 
+    
+ABOUT GLITCH:
+- Glitch is a design-minded developer with # years of experience crafting digital experiences.
+- He focuses on minimal, human-first interfaces blending clean code with visual storytelling.
+- Skills: React, Next.js, Vue 3, Tailwind CSS, Framer Motion, Node.js, Express, Firebase, Figma, Adobe XD, GSAP, D3.js.
+- He has shipped #+ projects and values accessibility, intuitive micro-interactions, and clean maintainable code.
+
+PROJECTS:
+1. Bloomscape: Interactive plant-care dashboard with 3D visualizations and real-time environmental tips. Reduced bounce rate by 34%. Tech: React, GSAP, Node.js.
+2. Nexa Analytics: Data dashboard for startups with real-time metrics and custom widgets. Used by 200+ active users. Tech: Vue, D3, Python.
+3. Chromatic UI: Design system and component library powering 5+ products. Tech: Figma, Tailwind, Storybook.
+
+CONTACT:
+- Email: Glitch@celestefolio.com
+- Based in Kenya, available for remote collaborations worldwide.
+- Response within 24 hours.
+
+WORK PROCESS: Discovery & research → Wireframing → Component-driven development → Testing → Performance tuning.
+
+Keep responses concise (2-3 sentences max unless asked for details), warm, and helpful. If asked something outside portfolio knowledge, politely say you specialize in Glitch's work but can chat generally. Remember previous messages in the conversation.`;
+    
+    // Store conversation history for context window (maintains memory)
+    let conversationHistory = [
+      { role: "user", parts: [{ text: SYSTEM_PROMPT }] }, // system instruction as user prefix
+      { role: "model", parts: [{ text: "Understood. I'm ready to help with Glitch's portfolio!" }] }
+    ];
+    
+    // DOM elements
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendMessageBtn');
+    const chatContainer = document.getElementById('chatContainer');
+    const chatToggleBtn = document.getElementById('chatToggleBtn');
+    const closeChatBtn = document.getElementById('closeChatBtn');
+    const openChatHero = document.getElementById('openChatHero');
+    const testApiBtn = document.getElementById('testApiBtn');
+    
+    // Helper: Add message to UI
+    function addMessage(text, sender) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${sender}`;
+      const avatar = sender === 'user' ? '👤' : '🤖';
+      messageDiv.innerHTML = `
+        <div class="message-avatar">${avatar}</div>
+        <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+      `;
+      chatMessages.appendChild(messageDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    // Typing indicator
+    function showTyping() {
+      const typingDiv = document.createElement('div');
+      typingDiv.className = 'message bot';
+      typingDiv.id = 'typingIndicator';
+      typingDiv.innerHTML = `
+        <div class="message-avatar">🤖</div>
+        <div class="typing-indicator"><span></span><span></span><span></span></div>
+      `;
+      chatMessages.appendChild(typingDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+    
+    function hideTyping() {
+      const indicator = document.getElementById('typingIndicator');
+      if (indicator) indicator.remove();
+    }
+    
+    // Call Gemini API with conversation history
+    async function getGeminiResponse(userMessage) {
+      // Build conversation for API (excluding system instruction after first, but we keep it simple)
+      // Format: add user message to history
+      const apiHistory = [];
+      // Add system context as first user instruction (trick for Gemini)
+      apiHistory.push({
+        role: "user",
+        parts: [{ text: SYSTEM_PROMPT + "\n\nRemember our conversation so far and answer helpfully." }]
+      });
+      apiHistory.push({
+        role: "model",
+        parts: [{ text: "I'll help with Glitch's portfolio. What would you like to know?" }]
+      });
+      
+      // Add last 10 exchanges for memory
+      const recentHistory = conversationHistory.slice(-10);
+      for (const msg of recentHistory) {
+        if (msg.role === 'user' && msg.parts[0].text !== SYSTEM_PROMPT) {
+          apiHistory.push({ role: "user", parts: [{ text: msg.parts[0].text }] });
+        } else if (msg.role === 'model') {
+          apiHistory.push({ role: "model", parts: [{ text: msg.parts[0].text }] });
+        }
+      }
+      // Add current user message
+      apiHistory.push({ role: "user", parts: [{ text: userMessage }] });
+      
+      const requestBody = {
+        contents: apiHistory,
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 500,
+          topP: 0.9
+        }
+      };
+      
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.error('API Error:', errorData);
+          if (response.status === 403 || response.status === 401) {
+            return "⚠️ API key is invalid or missing. Please set a valid Gemini API key in the script (line ~180). Get one free at https://aistudio.google.com/app/apikey";
+          }
+          return `❌ API error: ${response.status}. Please check your API key and try again.`;
+        }
+        
+        const data = await response.json();
+        const aiText = data.candidates?.[0]?.content?.parts?.[0]?.text || "I'm not sure how to respond to that.";
+        
+        // Store in conversation history
+        conversationHistory.push({ role: "user", parts: [{ text: userMessage }] });
+        conversationHistory.push({ role: "model", parts: [{ text: aiText }] });
+        
+        // Keep history manageable
+        if (conversationHistory.length > 30) {
+          conversationHistory = conversationHistory.slice(-25);
+        }
+        
+        return aiText;
+      } catch (error) {
+        console.error('Network error:', error);
+        return "🔌 Connection error. Please check your internet connection or API key configuration.";
+      }
+    }
+    
+    // Process user message with full AI
+    async function processUserMessage() {
+      const userText = chatInput.value.trim();
+      if (!userText) return;
+      
+      addMessage(userText, 'user');
+      chatInput.value = '';
+      showTyping();
+      
+      const aiReply = await getGeminiResponse(userText);
+      hideTyping();
+      addMessage(aiReply, 'bot');
+    }
+    
+    // Event listeners
+    sendBtn.addEventListener('click', processUserMessage);
+    chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') processUserMessage();
+    });
+    
+    function openChat() {
+      chatContainer.classList.remove('hidden');
+      setTimeout(() => chatInput.focus(), 200);
+    }
+    
+    function closeChat() {
+      chatContainer.classList.add('hidden');
+    }
+    
+    chatToggleBtn.addEventListener('click', () => {
+      if (chatContainer.classList.contains('hidden')) openChat();
+      else closeChat();
+    });
+    closeChatBtn.addEventListener('click', closeChat);
+    if (openChatHero) openChatHero.addEventListener('click', (e) => { e.preventDefault(); openChat(); });
+    
+    // API Key testing function
+    async function testApiConnection() {
+      if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY") {
+        alert("⚠️ Please replace 'your gemini api key' with your actual Gemini API key.\n\nGet a free key: https://aistudio.google.com/app/apikey");
+        return;
+      }
+      
+      showTyping();
+      try {
+        const testResponse = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ role: "user", parts: [{ text: "Say 'API connection successful!'" }] }],
+            generationConfig: { maxOutputTokens: 30 }
+          })
+        });
+        hideTyping();
+        
+        if (testResponse.ok) {
+          alert("✅ Gemini API connection successful! The chatbot is fully functional.");
+        } else {
+          const err = await testResponse.json();
+          alert(`❌ API Error: ${testResponse.status}\n${err.error?.message || 'Invalid API key or quota exceeded.'}`);
+        }
+      } catch (error) {
+        hideTyping();
+        alert("❌ Network error. Cannot reach Gemini API.");
+      }
+    }
+    
+    if (testApiBtn) testApiBtn.addEventListener('click', testApiConnection);
+    
+    // Add suggestion chips when chat opens
+    let suggestionsAdded = false;
+    function addSuggestions() {
+      if (suggestionsAdded) return;
+      const suggestions = ["Tell me about your projects", "What skills do you have?", "How can I contact Glitch?", "What is Bloomscape?"];
+      const suggestionDiv = document.createElement('div');
+      suggestionDiv.style.display = 'flex';
+      suggestionDiv.style.flexWrap = 'wrap';
+      suggestionDiv.style.gap = '8px';
+      suggestionDiv.style.padding = '8px 16px';
+      suggestionDiv.style.borderTop = '1px solid var(--border-dim)';
+      suggestions.forEach(sug => {
+        const chip = document.createElement('button');
+        chip.textContent = sug;
+        chip.style.background = 'var(--bg-dark)';
+        chip.style.border = '1px solid var(--border-dim)';
+        chip.style.borderRadius = '30px';
+        chip.style.padding = '6px 12px';
+        chip.style.fontSize = '0.7rem';
+        chip.style.cursor = 'pointer';
+        chip.style.color = 'var(--text-muted)';
+        chip.addEventListener('click', () => {
+          chatInput.value = sug;
+          processUserMessage();
+        });
+        suggestionDiv.appendChild(chip);
+      });
+      chatMessages.parentNode.insertBefore(suggestionDiv, chatMessages.nextSibling);
+      suggestionsAdded = true;
+    }
+    
+    const observer = new MutationObserver(() => {
+      if (!chatContainer.classList.contains('hidden') && !suggestionsAdded) addSuggestions();
+    });
+    observer.observe(chatContainer, { attributes: true });
+    
+    // Fake navigation for demo completeness
+    document.getElementById('fakeProjectsLink')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert("✨ This is a demo page. The chatbot works fully — check the API connection!");
+    });
+    document.getElementById('fakeContactLink')?.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert("📬 Contact: Glitch@celestefolio.com | The AI chatbot can answer any questions!");
+    });
+    
+    console.log("✅ Fully functional AI chatbot ready — Powered by Gemini API");
+    if (GEMINI_API_KEY === "YOUR_GEMINI_API_KEY") {
+      console.warn("⚠️ Please add your Gemini API key to enable the chatbot. Get one at https://aistudio.google.com/");
+    }
+  </script>
+</body>
+</html>

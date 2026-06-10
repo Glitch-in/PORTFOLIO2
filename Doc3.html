@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | Contact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Doc.css">
+</head>
+<body>
+  <div class="page-container">
+    <nav class="main-nav">
+      <div class="nav-brand">Glitch<span>folio</span></div>
+      <ul class="nav-links">
+        <li><a href="index.html">intro</a></li>
+        <li><a href="Doc2.html">projects & details</a></li>
+        <li><a href="Doc3.html" class="active">contact</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <div class="projects-header">
+        <div class="section-sub">📬 let’s create something</div>
+        <h1>Got an idea? <span class="accent">Share.</span></h1>
+        <p class="hero-description" style="max-width: 580px;">Whether it’s a collaboration, freelance project, or just a friendly hello — I’m one message away.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Reach out directly</h2>
+          <p class="contact-intro">I'm currently available for select collaborations and design-driven projects. Expect a reply within 24 hours.</p>
+          <div class="contact-details">
+            <div class="contact-item">
+              <div class="contact-icon">📧</div>
+              <div><p>squid100ward@gmail.com</p><span>professional inquiries</span></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📍</div>
+              <div><p>based in # / remote</p><span>GMT+2, open worldwide</span></div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon">📱</div>
+              <div><p>+254 702015596</p><span>signal / whatsapp prefered</span></div>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="#" class="social-link">GitHub</a>
+            <a href="#" class="social-link">LinkedIn</a>
+            <a href="#" class="social-link">Dribbble</a>
+            <a href="#" class="social-link">Instagram</a>
+          </div>
+        </div>
+
+        <div class="contact-form">
+          <form action="#" method="post" id="portfolio-contact">
+            <div class="form-group">
+              <label for="name">Full name</label>
+              <input type="text" id="name" name="name" placeholder="Alex Johnson" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email address</label>
+              <input type="email" id="email" name="email" placeholder="hello@example.com" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Tell me about your project</label>
+              <textarea id="message" name="message" rows="4" placeholder="Brief description, timeline, or just a question..."></textarea>
+            </div>
+            <button type="submit" class="btn primary-btn submit-btn">Send message →</button>
+            <p style="font-size: 0.7rem; margin-top: 1rem; text-align: center; color: var(--text-muted);">* no spam, just genuine convo.</p>
+          </form>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>✧ let’s build bridges, not just websites ✧</p>
+    </footer>
+  </div>
+
+  <script>
+    // simple demo alert for form submission (no backend)
+    const form = document.getElementById('portfolio-contact');
+    if(form) {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('✨ Thanks for reaching out! I will get back to you soon. (demo mode) ✨');
+        form.reset();
+      });
+    }
+  </script>
+</body>
+</html>
+/create back end for this script/
